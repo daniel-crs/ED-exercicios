@@ -2,9 +2,10 @@
 #include <stdlib.h>
 
 int le_valida_num();
+int le_valida_loop();
 
 int main(void) {
-	int i, y, flag = 1, tam = 10, *vet;
+	int i, contador, aux, flag = 1, tam = 10, *vet;
 	
 	vet = malloc(tam * sizeof(int));
 	
@@ -13,32 +14,39 @@ int main(void) {
 		vet[i] = le_valida_num();	
 	}
 	
-	y = tam;
-	
 	do{
-		printf("Quer continuar (s/n): ");
-		scanf("%d", &flag);		
+		flag = le_valida_loop();	
 		
 		if(flag == 1) {
 			printf("\n");
 			
-			printf("%d: ", y + 1);
-			vet = realloc(vet, y + 1);
+			printf("%d: ", tam + 1);
+			vet = realloc(vet, tam + 1);
 			
-			vet[y] = le_valida_num();
-			y++;
+			vet[tam] = le_valida_num();
+			tam++;
 		} else {
 			flag = 0;
 			
 			printf("\n");
 			
-			for(i = 0; i < y; i++) {
+			for(contador = 1; contador < tam; contador++) {
+				for(i = 0; i < tam - 1; i++) {
+					if(vet[i] > vet[i + 1]) {
+						aux = vet[i];
+						vet[i] = vet[i + 1];
+						vet[i + 1] = aux;
+					}
+				}
+			}
+			
+			for(i = 0; i < tam; i++) {
 				printf("%d ", vet[i]);
-			}		
+			}
 		}
 		
 		
-	}while(flag != 0 && y != 20);
+	}while(flag != 0 || tam != 20);
 	
 	free(vet);
 	
@@ -57,4 +65,22 @@ int le_valida_num() {
 	}while(number < 1 || number > 99);
 	
 	return number;
+}
+
+int le_valida_loop() {
+	int flag;
+	
+	do{
+		printf("\n***** Continuar programa *****\n\n");
+		printf("1 - Continuar\n");
+		printf("2 - Sair\n");
+		printf("Quer continuar: ");
+		scanf("%d", &flag);	
+		
+		if(flag < 0 || flag > 1) {
+			printf("\nTamanho invalido, tente novamente.\n\n");
+		}
+	}while(flag < 0 || flag > 1);
+	
+	return flag;
 }
