@@ -6,7 +6,7 @@ int le_valida_loop();
 void ordena_valores();
 
 int main(void) {
-	int i, contador, aux, flag = 1, tam = 10, *vet;
+	int i, flag = 1, tam = 10, *vet;
 	
 	vet = malloc(tam * sizeof(int));
 	
@@ -45,13 +45,15 @@ int main(void) {
 int le_valida_num() {
 	int number;
 	
-	do{
+	do {
 		scanf("%d", &number);
 		
-		if(number < 1 || number > 99) {
-			printf("\nTamanho invalido, tente novamente.\n\n");
+		if((number % 2) == 0){
+			printf("\nO valor %d proibido por ser par, tente novamente.\n\n", number);
+		} else if((number % 3) == 0) {
+			printf("\nO valor %d proibido por ser multiplo de 3, tente novamente.\n\n", number);
 		}
-	}while(number < 1 || number > 99);
+	}while((number % 2) == 0 || (number % 3) == 0);
 	
 	return number;
 }
@@ -75,17 +77,17 @@ int le_valida_loop() {
 }
 
 void ordena_valores(int *vet, int tam) {
-	int i, aux, contador;
+	int i, x, y, aux;
 	
-	for(contador = 1; contador < tam; contador++) {
-		for(i = 0; i < tam - 1; i++) {
-			if(vet[i] > vet[i + 1]) {
-				aux = vet[i];
-				vet[i] = vet[i + 1];
-				vet[i + 1] = aux;
-			}
+	for(x = 1; x < tam; x++) {
+		aux = vet[x];
+				
+		for(y = x - 1; y >= 0 && vet[y] <= aux; y--) {
+			vet[y + 1] = vet[y];
 		}
-	}	
+				
+		vet[y + 1] = aux;
+	}
 			
 	for(i = 0; i < tam; i++) {
 		printf("%d ", vet[i]);
