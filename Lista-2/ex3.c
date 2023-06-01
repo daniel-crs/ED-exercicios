@@ -3,10 +3,11 @@
 
 int le_valida_num();
 int le_valida_loop();
-void ordena_valores();
+void ordena_valores_crescente();
+void ordena_valores_decrescente();
 
 int main(void) {
-	int i, flag = 1, tam = 10, *vet;
+	int i, flag = 1, tam = 2, *vet;
 	
 	vet = malloc(tam * sizeof(int));
 	
@@ -31,7 +32,11 @@ int main(void) {
 			
 			printf("\n");
 			
-			ordena_valores(vet, tam);
+			ordena_valores_crescente(vet, tam);
+			
+			printf("\n\n");
+			
+			ordena_valores_decrescente(vet, tam);
 		}
 		
 		
@@ -48,16 +53,16 @@ int le_valida_num() {
 	do {
 		scanf("%d", &number);
 		
-		if((number % 2) == 0){
-			printf("\nO valor %d proibido por ser par, tente novamente.\n\n", number);
-		} else if((number % 3) == 0) {
-			printf("\nO valor %d proibido por ser multiplo de 3, tente novamente.\n\n", number);
+		if((number % 2) == 1){
+			printf("\nO valor %d proibido por ser impar, tente novamente.\n\n", number);
+		} else if((number % 5) == 0) {
+			printf("\nO valor %d proibido por ser multiplo de 5, tente novamente.\n\n", number);
 		} else if(number < 1) {
 			printf("\nO valor %d proibido por ser menor que 0, tente novamente.\n\n", number);
 		} else if(number > 99) {
 			printf("\nO valor %d proibido por ser maior que 99, tente novamente.\n\n", number);
 		}
-	}while((number % 2) == 0 || (number % 3) == 0 || number < 1 || number > 99);
+	}while((number % 2) == 1 || (number % 5) == 0 || number < 1 || number > 99);
 	
 	return number;
 }
@@ -80,17 +85,35 @@ int le_valida_loop() {
 	return flag;
 }
 
-void ordena_valores(int *vet, int tam) {
-	int i, x, y, aux;
-	
-	for(x = 1; x < tam; x++) {
-		aux = vet[x];
-				
-		for(y = x - 1; y >= 0 && vet[y] <= aux; y--) {
-			vet[y + 1] = vet[y];
+void ordena_valores_crescente(int *vet, int tam) {
+	int i, contA, contB, aux;
+			
+	for(contA = 0; contA <= tam; contA++) {
+		for(contB = contA + 1; contB <= tam; contB++) {
+			if(vet[contA] > vet[contB]) {
+				aux = vet[contB];
+				vet[contB] = vet[contA];
+				vet[contA] = aux;
+			}
 		}
-				
-		vet[y + 1] = aux;
+	}
+			
+	for(i = 0; i < tam; i++) {
+		printf("%d ", vet[i]);
+	}
+}
+
+void ordena_valores_decrescente(int *vet, int tam) {
+	int i, contA, contB, aux;
+	
+	for(contA = 0; contA <= tam; contA++) {
+		for(contB = contA + 1; contB <= tam; contB++) {
+			if(vet[contA] < vet[contB]) {
+				aux = vet[contB];
+				vet[contB] = vet[contA];
+				vet[contA] = aux;
+			}
+		}
 	}
 			
 	for(i = 0; i < tam; i++) {
